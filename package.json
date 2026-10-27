@@ -1,0 +1,10 @@
+{
+  "name": "gulafsha-ansari-wedding",
+  "version": "1.0.0",
+  "description": "Wedding invitation website for Gulafsha Ansari & Naseem Ansari",
+  "scripts": {
+    "dev": "python -m http.server 3000 --bind 127.0.0.1",
+    "start": "python -m http.server 3000 --bind 127.0.0.1",
+    "serve": "python -m http.server 3000 --bind 127.0.0.1"
+  }
+}
