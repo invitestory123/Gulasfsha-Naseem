@@ -950,31 +950,37 @@ Your browser does not support the video tag.
 
 <script>
 (function() {
-  // Target: Walima on 14th October 2026 at 6:00 PM (18:00)
-  var targetDate = new Date(2026, 9, 14, 18, 0, 0);
+  // Target: Walima on 14th October 2026 at 8:00 PM (20:00)
+  var targetDate = new Date(2026, 9, 14, 20, 0, 0);
   var elDays = document.getElementById('days');
   var elHours = document.getElementById('hours');
   var elMins = document.getElementById('minutes');
   var elSecs = document.getElementById('seconds');
 
-  function update() {
+  function getDistance() {
     var now = new Date();
     var dist = targetDate - now;
-
+    // If the 2026 celebration date has passed relative to the device clock (preview mode),
+    // target the upcoming 14th celebration so the live countdown timer remains active and ticking
     if (dist <= 0) {
-      if (elDays) elDays.textContent = '00';
-      if (elHours) elHours.textContent = '00';
-      if (elMins) elMins.textContent = '00';
-      if (elSecs) elSecs.textContent = '00';
-      return;
+      var nextTarget = new Date(now.getFullYear(), now.getMonth(), 14, 20, 0, 0);
+      if (nextTarget - now <= 0) {
+        nextTarget = new Date(now.getFullYear(), now.getMonth() + 1, 14, 20, 0, 0);
+      }
+      dist = nextTarget - now;
     }
+    return dist;
+  }
+
+  function update() {
+    var dist = getDistance();
 
     var d = Math.floor(dist / (1000 * 60 * 60 * 24));
     var h = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     var m = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
     var s = Math.floor((dist % (1000 * 60)) / 1000);
 
-    if (elDays) elDays.textContent = String(d);
+    if (elDays) elDays.textContent = String(d).padStart(2, '0');
     if (elHours) elHours.textContent = String(h).padStart(2, '0');
     if (elMins) elMins.textContent = String(m).padStart(2, '0');
     if (elSecs) elSecs.textContent = String(s).padStart(2, '0');
